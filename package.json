@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "rimraf ./build && tsc",
-    "start": "npm run build && node build/source/index.js",
+    "start": "npm run build && node build/index.js",
     "start:dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
