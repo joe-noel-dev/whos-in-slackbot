@@ -25,7 +25,7 @@ export const processCommand = async (
   if (command.type === 'get-user-location' && command.otherUser) {
     const whoerns = await database.getWhoernsForUser(command.otherUser);
     whoerns.sort((lhs, rhs) => lhs.date.getTime() - rhs.date.getTime());
-    let response = 'User is in on the following date(s):\n';
+    let response = `<@${command.otherUser}> is in on the following date(s):\n`;
 
     const emojiGivenLocation: {[key: string]: string} = {
       Remote: ':desert_island:',
