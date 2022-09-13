@@ -2,7 +2,6 @@
   "name": "whos-in-slackbot",
   "version": "1.0.0",
   "description": "",
-  "main": "source/index.js",
   "scripts": {
     "build": "rimraf ./build && tsc",
     "start": "npm run build && node build/source/index.js",
