@@ -103,8 +103,7 @@ const getType = (
       (token) =>
         token.toLowerCase() === "who's" || token.toLowerCase() === 'who'
     ) &&
-    location &&
-    date
+    location
   ) {
     return 'get-location';
   }
