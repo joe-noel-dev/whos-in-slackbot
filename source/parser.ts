@@ -72,7 +72,7 @@ const getDate = (tokens: Array<string>): Date | undefined => {
     date.setMonth(month);
     date.setDate(day);
 
-    if (date.getTime() - Date.now()) {
+    while (date.getTime() - new Date().getTime()) {
       date.setFullYear(date.getFullYear() + 1);
     }
 
