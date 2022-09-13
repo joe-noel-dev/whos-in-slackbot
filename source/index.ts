@@ -44,6 +44,7 @@ app.post('/', async (request, response) => {
       });
     }
 
+    response.sendStatus(200);
     return;
   }
 
