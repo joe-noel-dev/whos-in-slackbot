@@ -26,7 +26,7 @@ app.post('/', async (request, response) => {
     return;
   }
 
-  if (payload.event && payload.event.type === 'message') {
+  if (payload.event && payload.event.type === 'app_mention') {
     const request = payload.event.text;
     const user = payload.event.user;
     const command = parseRequest(request, user);
