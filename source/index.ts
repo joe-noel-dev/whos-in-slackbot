@@ -12,6 +12,10 @@ app.use(express.json());
 const slackToken = process.env.SLACK_TOKEN || 'DUMMY_TOKEN';
 const slack = new WebClient(slackToken);
 
+app.get('/', async (request, response) => {
+  response.status(200).send('All good my end');
+});
+
 app.post('/', async (request, response) => {
   const payload = request.body;
 
