@@ -13,6 +13,7 @@ const requests = [
   '9th march hq',
   '18th jan wfh',
   '18th february tileyard',
+  '2022-10-14 hw',
   'next friday HQ',
   '@MyBuddy',
   'subscribe @MyBuddy',

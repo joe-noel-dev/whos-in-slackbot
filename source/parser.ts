@@ -1,3 +1,4 @@
+import {type} from 'os';
 import {allLocations, Command, CommandType, Location} from './command';
 
 const getAliases = (location: Location): Array<string> => {
@@ -7,7 +8,7 @@ const getAliases = (location: Location): Array<string> => {
     case 'Tileyard':
       return ['ty', 'tileyard', 'london', 'ampify', 'big smoke'];
     case 'HQ':
-      return ['hq', 'high wycombe', 'hw', 'wycombe', 'wycombe'];
+      return ['hq', 'high wycombe', 'hw', 'wycombe'];
   }
 };
 
@@ -43,8 +44,14 @@ const getDate = (tokens: Array<string>): Date | undefined => {
 
   let day: number | undefined = undefined;
   let month: number | undefined = undefined;
+  let fullDate: Date | undefined = undefined;
 
   tokens.forEach((token) => {
+    const parsed = Date.parse(token);
+    if (parsed > 0) {
+      fullDate = new Date(parsed);
+    }
+
     const matches = datePattern.exec(token);
     if (matches) {
       day = parseInt(matches[1]);
@@ -55,6 +62,10 @@ const getDate = (tokens: Array<string>): Date | undefined => {
       month = m;
     }
   });
+
+  if (typeof fullDate === 'object') {
+    return fullDate;
+  }
 
   if (typeof day === 'number' && typeof month === 'number') {
     const date = new Date();
