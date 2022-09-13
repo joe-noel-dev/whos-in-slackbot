@@ -42,17 +42,32 @@ export const processCommand = async (
     return response;
   }
 
+  if (command.type === 'get-location' && command.location && command.date) {
+    let whoerns = await database.getWhoernsForLocation(command.location);
+    whoerns = whoerns.filter(
+      (w) => w.date.toDateString() === command.date?.toDateString()
+    );
+
+    if (whoerns.length === 0) {
+      return `No one will be at ${
+        command.location
+      } on ${command.date.toDateString()}. SAD :crying_cat_face:\n`;
+    }
+
+    const people = whoerns.map((w) => `<@${w.user}>`).join(', ');
+    return `${people} are at ${
+      command.location
+    } on ${command.date.toDateString()}.\n`;
+  }
+
   if (command.type === 'get-location' && command.location) {
     let whoerns = await database.getWhoernsForLocation(command.location);
 
-    whoerns.sort((lhs, rhs) => lhs.date.getTime() - rhs.date.getTime());
-    if (command.date) {
-      whoerns = whoerns.filter(
-        (w) => w.date.toDateString() === command.date?.toDateString()
-      );
-    }
+    whoerns = whoerns
+      .filter((w) => w.date.getDate() > new Date().getDate() + 7)
+      .sort((lhs, rhs) => lhs.date.getTime() - rhs.date.getTime());
 
-    let response = `These people are at ${command.location} on the following dates:\n`;
+    let response = 'These people are at Tileyard on the following dates:\n';
 
     whoerns
       .reduce((map, whoern) => {
@@ -67,7 +82,7 @@ export const processCommand = async (
         (users, date) =>
           (response += `\t- ${date} : ${users
             .map((id) => `<@${id}>`)
-            .join(',')}\n`)
+            .join(', ')}\n`)
       );
     return response;
   }
