@@ -19,6 +19,8 @@ app.get('/', async (request, response) => {
 app.post('/', async (request, response) => {
   const payload = request.body;
 
+  console.log(payload);
+
   if (payload.challenge) {
     response.send({challenge: payload.challenge});
     return;
