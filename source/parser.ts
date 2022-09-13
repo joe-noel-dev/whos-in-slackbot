@@ -1,4 +1,4 @@
-import {Command, Location} from './command';
+import {allLocations, Command, CommandType, Location} from './command';
 
 const getAliases = (location: Location): Array<string> => {
   switch (location) {
@@ -7,19 +7,37 @@ const getAliases = (location: Location): Array<string> => {
     case 'Tileyard':
       return ['ty', 'Tileyard', 'tileyard', 'London', 'Ampify', 'big smoke'];
     case 'HQ':
-      return ['hq', 'High Wycombe', 'hw', 'HW'];
+      return ['hq', 'High Wycombe', 'hw', 'HW', 'wycombe', 'Wycombe'];
   }
 };
 
-export const parseRequest = (
-  request: string,
-  userId: string
-): Command | null => {
-  if (request.includes('default wfh')) {
+export const parseRequest = (request: string, user: string): Command | null => {
+  let tokens = request.split(' ');
+  let type: CommandType | undefined = undefined;
+  let location: Location | undefined = undefined;
+
+  tokens.forEach((token, index) => {
+    if (token === 'default') {
+      type = 'update-default';
+    }
+
+    allLocations.forEach((loc) => {
+      if (token === loc) {
+        location = loc;
+      } else {
+        const aliases = getAliases(loc);
+        aliases.forEach((alias) => {
+          if (token === alias) location = loc;
+        });
+      }
+    });
+  });
+
+  if (type === 'update-default' && location) {
     return {
-      user: userId,
-      type: 'update-default',
-      location: 'Remote',
+      user,
+      type,
+      location,
     };
   }
 

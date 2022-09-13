@@ -16,3 +16,5 @@ export interface Command {
 }
 
 export type Location = 'Remote' | 'Tileyard' | 'HQ';
+
+export const allLocations: Array<Location> = ['Remote', 'Tileyard', 'HQ'];

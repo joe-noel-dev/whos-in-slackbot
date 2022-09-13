@@ -6,6 +6,9 @@ const userId = 'U2147483697';
 
 const requests = [
   'default wfh',
+  'default ty',
+  'default hq',
+  'default Wycombe',
   '21st sep tileyard',
   'next friday HQ',
   '@MyBuddy',
