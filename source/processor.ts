@@ -17,7 +17,7 @@ export const processCommand = async (
       location: command.location,
     };
     await database.setWhoerns([whoern]);
-    return `Updated your location on ${command.date.getDay()} to ${
+    return `Updated your location on ${command.date.toDateString()} to ${
       command.location
     }`;
   }
