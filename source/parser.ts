@@ -1,4 +1,3 @@
-import {type} from 'os';
 import {allLocations, Command, CommandType, Location} from './command';
 
 const getAliases = (location: Location): Array<string> => {
@@ -31,7 +30,7 @@ const getMonth = (token: string): number | undefined => {
   let month = undefined;
 
   months.forEach((m, index) => {
-    if (token.startsWith(m)) {
+    if (token.toLowerCase().startsWith(m)) {
       month = index;
     }
   });
@@ -72,7 +71,7 @@ const getDate = (tokens: Array<string>): Date | undefined => {
     date.setMonth(month);
     date.setDate(day);
 
-    while (date.getTime() - new Date().getTime()) {
+    while (date.getTime() < new Date().getTime()) {
       date.setFullYear(date.getFullYear() + 1);
     }
 
@@ -85,14 +84,37 @@ const getDate = (tokens: Array<string>): Date | undefined => {
 const getType = (
   tokens: Array<string>,
   date?: Date,
-  location?: Location
+  location?: Location,
+  otherUser?: string
 ): CommandType | undefined => {
-  if (tokens.find((token) => token.toLowerCase() === 'default')) {
+  if (tokens.find((token) => token.toLowerCase() === 'default') && location) {
     return 'update-default';
+  }
+
+  if (
+    tokens.find((token) => token.toLowerCase() === 'subscribe') &&
+    otherUser
+  ) {
+    return 'subscribe-to-user';
+  }
+
+  if (
+    tokens.find(
+      (token) =>
+        token.toLowerCase() === "who's" || token.toLowerCase() === 'who'
+    ) &&
+    location &&
+    date
+  ) {
+    return 'get-location';
   }
 
   if (date && location) {
     return 'update-location';
+  }
+
+  if (otherUser) {
+    return 'get-user-location';
   }
 
   return undefined;
@@ -119,27 +141,38 @@ const getLocation = (tokens: Array<string>): Location | undefined => {
   return foundLocation;
 };
 
+const getUser = (tokens: Array<string>): string | undefined => {
+  const pattern = /^<@(\w*).*>$/;
+
+  const users = tokens
+    .map((token) => {
+      const matches = pattern.exec(token);
+      return matches ? matches[1] : null;
+    })
+    .filter(Boolean);
+
+  if (users.length > 0 && users[0]) {
+    return users[0];
+  }
+
+  return undefined;
+};
+
 export const parseRequest = (request: string, user: string): Command | null => {
   let tokens = request.split(' ');
 
   const date = getDate(tokens);
   const location = getLocation(tokens);
-  const type = getType(tokens, date, location);
+  const otherUser = getUser(tokens);
+  const type = getType(tokens, date, location, otherUser);
 
-  if (type === 'update-default' && location) {
-    return {
-      user,
-      type,
-      location,
-    };
-  }
-
-  if (type === 'update-location' && location && date) {
+  if (type) {
     return {
       user,
       type,
       location,
       date,
+      otherUser,
     };
   }
 

@@ -15,8 +15,9 @@ const requests = [
   '18th february tileyard',
   '2022-10-14 hw',
   'next friday HQ',
-  '@MyBuddy',
-  'subscribe @MyBuddy',
+  '<@U837468746|Buddy>',
+  '<@U837468734>',
+  'subscribe <@U837468746|Buddy>',
   "who's in 8th October Tileyard",
 ];
 
