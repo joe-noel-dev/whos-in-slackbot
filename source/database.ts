@@ -1,6 +1,6 @@
 import {Location} from './command';
 
-interface Whoern {
+export interface Whoern {
   user: string;
   date: Date;
   location: Location;
@@ -31,7 +31,7 @@ export const createMemoryDatabase = (): Database => {
     getWhoernsForUser: (userId: string) =>
       Promise.resolve(data.filter((whoern) => whoern.user === userId)),
     getWhoernsForDate: (date: Date) =>
-      Promise.resolve(data.filter((whoern) => whoern.date === date)),
+      Promise.resolve(data.filter((whoern) => whoern.date.toDateString() === date.toDateString())),
     getWhoernsForLocation: (location: Location) =>
       Promise.resolve(data.filter((whoern) => whoern.location === location)),
 
@@ -44,6 +44,7 @@ export const createMemoryDatabase = (): Database => {
                 newWhoern.date === whoern.date && newWhoern.user === whoern.user
               )
           );
+          data = data.concat(whoerns);
         })
       ),
   };
