@@ -140,6 +140,8 @@ const getLocation = (tokens: Array<string>): Location | undefined => {
   return foundLocation;
 };
 
+const BOT_ID = 'U04241SDADB';
+
 const getUser = (tokens: Array<string>): string | undefined => {
   const pattern = /^<@(\w*).*>$/;
 
@@ -148,7 +150,8 @@ const getUser = (tokens: Array<string>): string | undefined => {
       const matches = pattern.exec(token);
       return matches ? matches[1] : null;
     })
-    .filter(Boolean);
+    .filter(Boolean)
+    .filter((user) => user !== BOT_ID);
 
   if (users.length > 0 && users[0]) {
     return users[0];

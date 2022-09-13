@@ -17,6 +17,8 @@ const requests = [
   {user: userIds[1], text: 'next friday HQ'},
   {user: userIds[2], text: '<@U837468746|Buddy>'},
   {user: userIds[3], text: '<@U837468734>'},
+  {user: userIds[3], text: '<@U04241SDADB>'},
+  {user: userIds[3], text: '<@U04241SDADB> <@U837468734>'},
   {user: userIds[0], text: 'subscribe <@U837468746|Buddy>'},
   {user: userIds[1], text: "who's in 8th October Tileyard"},
   {user: userIds[2], text: "who's in tileyard ???"},
