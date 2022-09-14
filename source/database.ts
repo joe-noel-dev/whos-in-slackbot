@@ -31,7 +31,11 @@ export const createMemoryDatabase = (): Database => {
     getWhoernsForUser: (userId: string) =>
       Promise.resolve(data.filter((whoern) => whoern.user === userId)),
     getWhoernsForDate: (date: Date) =>
-      Promise.resolve(data.filter((whoern) => whoern.date.toDateString() === date.toDateString())),
+      Promise.resolve(
+        data.filter(
+          (whoern) => whoern.date.toDateString() === date.toDateString()
+        )
+      ),
     getWhoernsForLocation: (location: Location) =>
       Promise.resolve(data.filter((whoern) => whoern.location === location)),
 

@@ -63,11 +63,16 @@ export const processCommand = async (
   if (command.type === 'get-location' && command.location) {
     let whoerns = await database.getWhoernsForLocation(command.location);
 
+    const weekInMilliseconds = 1000 * 60 * 60 * 24 * 7;
     whoerns = whoerns
-      .filter((w) => w.date.getDate() > new Date().getDate() + 7)
+      .filter(
+        (w) =>
+          Date.now() <= w.date.getTime() &&
+          w.date.getTime() < Date.now() + weekInMilliseconds
+      )
       .sort((lhs, rhs) => lhs.date.getTime() - rhs.date.getTime());
 
-    let response = 'These people are at Tileyard on the following dates:\n';
+    let response = 'These people are at Tileyard in the coming week:\n';
 
     whoerns
       .reduce((map, whoern) => {
