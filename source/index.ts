@@ -29,17 +29,19 @@ app.post('/', async (request, response) => {
   if (payload.event && payload.event.type === 'app_mention') {
     const request = payload.event.text;
     const user = payload.event.user;
+    const channel = payload.event.channel;
+
     const command = parseRequest(request, user);
     if (command) {
       const reply = await processCommand(command, database);
 
       await slack.chat.postMessage({
-        channel: user,
+        channel,
         text: reply,
       });
     } else {
       await slack.chat.postMessage({
-        channel: user,
+        channel,
         text: ':shrug:',
       });
     }
